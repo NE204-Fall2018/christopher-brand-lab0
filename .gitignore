@@ -1,0 +1,9 @@
+# Python cruft
+*.pyc
+
+# Editor cruft
+*.swp
+*.*~
+
+# Ignore data folder
+data/*
