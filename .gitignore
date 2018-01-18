@@ -7,3 +7,12 @@
 
 # Ignore data folder
 data/*
+# Mac cruft
+.DS_Store
+
+# Ignore some latex stuff
+*.aux
+*.bbl
+*.blg
+*.log
+*.pdf
