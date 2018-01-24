@@ -17,7 +17,6 @@ data :
 validate :
 	curl -L -o lab0_spectral_data.md5sum https://www.dropbox.com/s/6jquiryg6jskii0/lab0_spectral_data.md5?dl=0
 	md5sum lab0_spectral_data.txt
-	md5sum lab0_spectral_data.txt > lab0_spectral_data.md5sum
 	md5sum -c lab0_spectral_data.md5sum
 
 # Run tests on analysis code
