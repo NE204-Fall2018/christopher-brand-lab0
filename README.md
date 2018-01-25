@@ -1,6 +1,6 @@
 # NE 204 Report Lab0
 
-#Energy Calibration
+# Energy Calibration
 
 Data was collected with a Coaxial HPGe detector with Co60,
 Am241, and Eu152 sources.
