@@ -1,22 +1,72 @@
-# NE 204 Report Template
+# NE 204 Report Lab0
 
-This repo contains the skeleton of a project for building lab reports from 
-source using `make` and `pdflatex` (texlive).
+Lab0 involved taking measurements with a Coaxial Ge detector. The 
 
-For a more fleshed-out example of writing a lab report in LaTeX, see the
-`lab_report_example` directory of 
-[this repo](https://github.com/rossbar/LaTeXIntro.git).
+## File instructions
 
-## How to use this template
+###executing the makefile
 
-[H/T stack overflow](https://stackoverflow.com/questions/1657017/how-to-squash-all-git-commits-into-one/9254257#9254257)
+Run the makefile to generate the lab report:
 
-```bash
-# Create a new directory for your report
-mkdir my_lab_report && cd $_
-# Create an empty repository
-git init
-# Initialize the repo with the template
-git fetch --depth=1 -n https://github.com/NE204-Spring2018/lab_report_template.git
-git reset --hard $(git commit-tree FETCH_HEAD^{tree} -m "initial commit")
+```
+make
+
+```
+### Implementing data check
+Within the makefile there are a series of tests.
+To download the data used for this experiment.
+
+```
+make data
+```
+### Validate data
+
+```
+make validate
+```
+
+(It is more convenient to use `develop` so that the code is soft-linked
+from the installation directory, and the installed package will always use
+the current version of code.)
+
+## Running the tests
+
+(Requires `requirements-dev.txt` to be installed)
+To run the tests using `pytest`, from the root directory of the repo:
+
+```
+pytest
+```
+
+(`python setup.py test` is still supported also.)
+By default, a code coverage report is printed to the terminal.
+Tests marked `webtest` or `plottest` are by default skipped for the sake of
+speed. To run all tests, clear the pre-configured markers option:
+
+```
+pytest -m ""
+```
+
+To produce an HTML code coverage report in directory `htmlcov`
+with line-by-line highlighting:
+
+```
+pytest --cov-report html:htmlcov
+```
+
+## Code Style Guide
+
+Use [google standards](https://google.github.io/styleguide/pyguide.html)
+
+## Linter
+
+* Use `flake8` in your IDE
+* Use `pylint` from command line (as in style guide)
+
+## Copyright Notice
+Becquerel v. 0.1, Copyright (c) 2017, The Regents of the University of California (UC), through Lawrence Berkeley National Laboratory, and the UC Berkeley campus (subject to receipt of any required approvals from the U.S. Dept. of Energy). All rights reserved.
+If you have questions about your rights to use or distribute this software, please contact Berkeley Lab's Innovation & Partnerships Office at  IPO@lbl.gov.
+
+NOTICE.  This Software was developed under funding from the U.S. Department of Energy and the U.S. Government consequently retains certain rights.  As such, the U.S. Government has been granted for itself and others acting on its behalf a paid-up, nonexclusive, irrevocable, worldwide license in the Software to reproduce, distribute copies to the public, prepare derivative works, and perform publicly and display publicly, and to permit other to do so.
+
 ```
