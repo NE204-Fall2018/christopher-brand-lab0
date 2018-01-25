@@ -12,7 +12,7 @@ Instructions for running the lab report are posted below:
 
 ## File instructions
 
-###Downloading the data
+### Downloading the data
 
 Use the makefile to download the data for the lab:
 
@@ -29,8 +29,8 @@ Within the makefile there are a series of tests.
 make validate
 ```
 
-###Generating the final report in pdf format
+### Generating the final report in pdf format
 
 ```
-make 
+make
 ```
