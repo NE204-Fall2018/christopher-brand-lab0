@@ -1,72 +1,36 @@
 # NE 204 Report Lab0
 
-Lab0 involved taking measurements with a Coaxial Ge detector. The 
+#Energy Calibration
+
+Data was collected with a Coaxial HPGe detector with Co60,
+Am241, and Eu152 sources.
+
+A python script was written to perform an energy calibration for the data
+sources.
+
+Instructions for running the lab report are posted below:
 
 ## File instructions
 
-###executing the makefile
+###Downloading the data
 
-Run the makefile to generate the lab report:
+Use the makefile to download the data for the lab:
 
 ```
-make
+make data
 
 ```
 ### Implementing data check
 Within the makefile there are a series of tests.
-To download the data used for this experiment.
 
-```
-make data
-```
 ### Validate data
 
 ```
 make validate
 ```
 
-(It is more convenient to use `develop` so that the code is soft-linked
-from the installation directory, and the installed package will always use
-the current version of code.)
-
-## Running the tests
-
-(Requires `requirements-dev.txt` to be installed)
-To run the tests using `pytest`, from the root directory of the repo:
+###Generating the final report in pdf format
 
 ```
-pytest
-```
-
-(`python setup.py test` is still supported also.)
-By default, a code coverage report is printed to the terminal.
-Tests marked `webtest` or `plottest` are by default skipped for the sake of
-speed. To run all tests, clear the pre-configured markers option:
-
-```
-pytest -m ""
-```
-
-To produce an HTML code coverage report in directory `htmlcov`
-with line-by-line highlighting:
-
-```
-pytest --cov-report html:htmlcov
-```
-
-## Code Style Guide
-
-Use [google standards](https://google.github.io/styleguide/pyguide.html)
-
-## Linter
-
-* Use `flake8` in your IDE
-* Use `pylint` from command line (as in style guide)
-
-## Copyright Notice
-Becquerel v. 0.1, Copyright (c) 2017, The Regents of the University of California (UC), through Lawrence Berkeley National Laboratory, and the UC Berkeley campus (subject to receipt of any required approvals from the U.S. Dept. of Energy). All rights reserved.
-If you have questions about your rights to use or distribute this software, please contact Berkeley Lab's Innovation & Partnerships Office at  IPO@lbl.gov.
-
-NOTICE.  This Software was developed under funding from the U.S. Department of Energy and the U.S. Government consequently retains certain rights.  As such, the U.S. Government has been granted for itself and others acting on its behalf a paid-up, nonexclusive, irrevocable, worldwide license in the Software to reproduce, distribute copies to the public, prepare derivative works, and perform publicly and display publicly, and to permit other to do so.
-
+make 
 ```
