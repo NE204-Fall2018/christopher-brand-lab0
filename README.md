@@ -21,7 +21,6 @@ make data
 
 ```
 ### Implementing data check
-Within the makefile there are a series of tests.
 
 ### Validate data
 
