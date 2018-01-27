@@ -17,31 +17,40 @@ Cs137 = data[:,2]
 Co60 = data[:,3]
 Eu152 = data[:,4]
 
+from calibration import energy_calibration
+energy_list = energy_calibration('Cs137', 'Am241')
+energy_list = sorted(energy_list, key=int)
+print(energy_list)
+merged_data = data[:,0] + data[:,2]
+plt.plot(merged_data)
 #from adc2kev import calibration
 #slope, intercept = calibration(Cs137)
-plt.plot(Cs137)
-plt.plot(Am241)
+#largest_integers = heapq.nlargest(1, Cs137)
 Am241_max = np.argmax(Am241)
-print(Am241_max)
 Cs137_max = np.argmax(Cs137)
-counts = [Am241_max, Cs137_max]
-energy = [59.541, 661.657]
-results = sm.OLS(energy,sm.add_constant(counts)).fit()
+channel_number = [Am241_max, Cs137_max]
+energy = energy_list
+results = sm.OLS(energy,sm.add_constant(channel_number)).fit()
 
-slope, intercept = np.polyfit(counts, energy, 1)
+slope, intercept = np.polyfit(channel_number, energy, 1)
 
-abline_values = [slope * i + intercept for i in counts]
-plt.plot(counts,energy, 'ro')
-plt.plot(counts, abline_values, 'b')
+abline_values = [slope * i + intercept for i in channel_number]
+plt.plot(channel_number,energy, 'ro')
+plt.plot(channel_number, abline_values, 'b')
 plt.xlabel('ADC Val')
 plt.ylabel('Energy [keV]')
 plt.title('Best Fit Line')
 Cs = []
-print(slope, intercept)
-for i in range(0,len(Am241)):
+for i in range(0,len(Cs137)):
     Cs += [i*slope+ intercept]
 Cs = np.array(Cs, 'float')
 plt.figure(2)
-plt.plot(Cs, Am241)
+plt.plot(Cs, Cs137, 'g')
+x1 = np.linspace(661.657,661.657, 100) #plotting a horizontal line
+y1 = np.linspace(0,50000,100) #plotting a horizontal line
+plt.plot(x1,y1, 'b', linestyle = '--', label = 'Desired')
+plt.ylabel("Counts")
+plt.xlabel("Energy(keV)")
+plt.title("Calibrated Energy Plot")
 plt.show()
 #argmax returns the position in the array where maximum occurs
