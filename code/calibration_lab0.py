@@ -9,6 +9,11 @@ from modelling import gauss
 import statsmodels.api as sm
 
 fname = '../lab0_spectral_data.txt'
+with open(fname, 'r') as f:
+    first_line = f.readline()
+    length = float(len(first_line.split()))
+    length = np.arange(0, length)
+
 data = np.genfromtxt(fname, delimiter='', skip_header=1)
 #parse the CSV data into fields we can use easily:
 Am241 = data[:,0]
@@ -20,15 +25,20 @@ Eu152 = data[:,4]
 from calibration import energy_calibration
 energy_list = energy_calibration('Cs137', 'Am241')
 energy_list = sorted(energy_list, key=int)
-print(energy_list)
+
 merged_data = data[:,0] + data[:,2]
-plt.plot(merged_data)
-#from adc2kev import calibration
-#slope, intercept = calibration(Cs137)
-#largest_integers = heapq.nlargest(1, Cs137)
-Am241_max = np.argmax(Am241)
-Cs137_max = np.argmax(Cs137)
-channel_number = [Am241_max, Cs137_max]
+merged_data = np.array(merged_data).tolist()
+
+i = 0; channel_max_list = []
+while i < len(energy_list):
+    channel_max = np.argmax(merged_data)
+    data_left = channel_max - 10
+    data_right = channel_max + 10
+    del merged_data[data_left:data_right]
+    channel_max_list.append(channel_max)
+    i += 1
+
+channel_number = sorted(channel_max_list, key=int)
 energy = energy_list
 results = sm.OLS(energy,sm.add_constant(channel_number)).fit()
 
