@@ -1,17 +1,23 @@
-def spectrum_calibration(channel_width, energy_list, merged_data):
+def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
     import numpy as np
     import matplotlib.pyplot as plt
     #from scipy.optimize import curve_fit
     #from modelling import gauss
     import statsmodels.api as sm
 
+    '''
+    The while loop goes through and identifies the largest peak in the
+    spectrum and it records the position of that peak. It then removes
+    the peak by removing 10 channels from the right and left of the peak.
+    The code will then search for the next largest position.
+    '''
 
     i = 0; channel_max_list = []
     while i < len(energy_list):
-        channel_max = np.argmax(merged_data)
+        channel_max = np.argmax(data_2_calibrate)
         data_left = channel_max - channel_width
         data_right = channel_max + channel_width
-        del merged_data[data_left:data_right]
+        del data_2_calibrate[data_left:data_right]
         channel_max_list.append(channel_max)
         i += 1
 
@@ -28,7 +34,7 @@ def spectrum_calibration(channel_width, energy_list, merged_data):
     abline_values = [slope * i + intercept for i in channel_number]
     plt.plot(channel_number,energy, 'ro')
     plt.plot(channel_number, abline_values, 'b')
-    plt.xlabel('ADC Val')
+    plt.xlabel('Channel Number')
     plt.ylabel('Energy [keV]')
     plt.title('Best Fit Line')
     return slope, intercept

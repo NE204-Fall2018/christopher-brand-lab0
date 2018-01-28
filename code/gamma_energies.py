@@ -110,10 +110,10 @@ def gamma_energies (*args):
                     if iso_mass_value == iso:
                         energy = float(energy)
                         energy_list.append(energy)
-                        print(energy_list)
+                        #print(energy_list)
                         Isotope_label.append(isotope_name)
                         iso_mass_value_list.append(iso_mass_value)
-                        print ("the energy of %s%s = %f " % (isotope_name, iso_mass_value, energy))
+                        #print ("the energy of %s%s = %f " % (isotope_name, iso_mass_value, energy))
             except ValueError:
                 pass
             if line == '': #Reads until end of file
