@@ -14,8 +14,8 @@ import statsmodels.api as sm
 Enter in your calibration sources into energy_calibration
 energy_calibration('Co60', 'Cs137')
 '''
-from calibration import energy_calibration
-energy_list = energy_calibration('Cs137', 'Am241')
+from gamma_energies import gamma_energies
+energy_list = gamma_energies('Cs137', 'Am241')
 energy_list = sorted(energy_list, key=int)
 
 channel_width = 10
