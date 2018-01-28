@@ -12,6 +12,16 @@ gamma_energies('Cs137', 'Am241', 'Co60')
 
 ```
 
+## calibration.py
+
+calibration.py is a function that takes the data that needs to be calibrated
+and performs a linear calibration using the input from gamma_energies function.
+
+```
+spectrum_calibration(channel_width, energy_list, merged_data)
+
+```
+
 ### calibration_lab0.py
 
 This code is almost fully automated to run. Enter the gamma-ray energies you
