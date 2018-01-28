@@ -26,7 +26,7 @@ test :
 
 # Automate running the analysis code
 analysis :
-	cd code/ && python example.py
+	cd code/ && python calibration_lab0.py
 
 clean :
 	rm -f *.aux *.log *.bbl *.lof *.lot *.blg *.out *.toc *.run.xml *.bcf

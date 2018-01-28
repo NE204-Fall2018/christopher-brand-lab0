@@ -6,9 +6,8 @@ Two points are needed for this linear calibration.
 '''
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.optimize import curve_fit
-from modelling import gauss
-import statsmodels.api as sm
+#from scipy.optimize import curve_fit
+#from modelling import gauss
 
 '''
 Enter in your calibration sources into energy_calibration
@@ -37,7 +36,6 @@ Ba133 = data[:,1]
 Cs137 = data[:,2]
 Co60 = data[:,3]
 Eu152 = data[:,4]
-
 '''
 merging the data for the calibration
 Also converting merged data into a list so channels can be
@@ -53,37 +51,17 @@ spectrum and it records the position of that peak. It then removes
 the peak by removing 10 channels from the right and left of the peak.
 The code will then search for the next largest position.
 '''
-i = 0; channel_max_list = []
-while i < len(energy_list):
-    channel_max = np.argmax(merged_data)
-    data_left = channel_max - channel_width
-    data_right = channel_max + channel_width
-    del merged_data[data_left:data_right]
-    channel_max_list.append(channel_max)
-    i += 1
-
-'''
-sorting channel number so the correct channel number corresponds with
-the correct energy.
-'''
-channel_number = sorted(channel_max_list, key=int)
-energy = energy_list
-results = sm.OLS(energy,sm.add_constant(channel_number)).fit()
-
-slope, intercept = np.polyfit(channel_number, energy, 1)
-
-abline_values = [slope * i + intercept for i in channel_number]
-plt.plot(channel_number,energy, 'ro')
-plt.plot(channel_number, abline_values, 'b')
-plt.xlabel('ADC Val')
-plt.ylabel('Energy [keV]')
-plt.title('Best Fit Line')
+from calibration import spectrum_calibration
+slope, intercept = spectrum_calibration(channel_width, energy_list, merged_data)
 Cs = []
 for i in range(0,len(Cs137)):
     Cs += [i*slope+ intercept]
 Cs = np.array(Cs, 'float')
 plt.figure(2)
 plt.plot(Cs, Cs137, 'g')
+fig = plt.figure()
+plt.plot(Cs137)
+plt.savefig('../images/Ba133.png')
 x1 = np.linspace(661.657,661.657, 100) #plotting a horizontal line
 y1 = np.linspace(0,50000,100) #plotting a horizontal line
 plt.plot(x1,y1, 'b', linestyle = '--', label = 'Desired')
