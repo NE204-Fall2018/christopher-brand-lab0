@@ -1,9 +1,11 @@
 def spectrum_calibration(channel_width, energy_list, merged_data):
     import numpy as np
     import matplotlib.pyplot as plt
-    from scipy.optimize import curve_fit
-    from modelling import gauss
+    #from scipy.optimize import curve_fit
+    #from modelling import gauss
     import statsmodels.api as sm
+
+
     i = 0; channel_max_list = []
     while i < len(energy_list):
         channel_max = np.argmax(merged_data)
