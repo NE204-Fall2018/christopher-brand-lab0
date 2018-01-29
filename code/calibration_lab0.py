@@ -117,6 +117,7 @@ for x, y in zip(energy_spectrum, energy_list_2):
     x1 = np.linspace(x,x, 10000) #plotting a horizontal line
     y1 = np.linspace(0, y,10000) #plotting a horizontal line
     plt.plot(x1,y1, 'b', linestyle = '--', label = 'Actual Energy')
+    plt.annotate('%0.1f keV' % x, xy=(x, y+50), xytext=(x, y+50))
     plt.xlim(0, max(energy_spectrum)+100)
 plt.plot(calibrated_channel, Ba133, 'k')
 plt.ylabel("Counts")
