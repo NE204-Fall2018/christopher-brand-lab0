@@ -12,13 +12,10 @@ spurious results.
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pylab as P
 #from scipy.optimize import curve_fit
 #from modelling import gauss
 from gamma_energies import gamma_energies
 import operator
-import matplotlib.transforms as mtransforms
-from matplotlib.transforms import offset_copy
 '''
 Enter the isotope spectrum to be calibrated. The calibration sources
 will be entered next
