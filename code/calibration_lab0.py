@@ -110,7 +110,6 @@ energies.
 '''
 
 fig = plt.figure()
-ax = P.subplot(2,1,1)
 energy_list_2 =[]
 for channel, energy in energy_channel:
     energy_list_2.append(float(energy))
@@ -118,8 +117,6 @@ for x, y in zip(energy_spectrum, energy_list_2):
     x1 = np.linspace(x,x, 10000) #plotting a horizontal line
     y1 = np.linspace(0, y,10000) #plotting a horizontal line
     plt.plot(x1,y1, 'b', linestyle = '--', label = 'Actual Energy')
-    transOffset = offset_copy(ax.transData)
-    plt.text(x1, y1, '%d' % (int(x)))
     plt.xlim(0, max(energy_spectrum)+100)
 plt.plot(calibrated_channel, Ba133, 'k')
 plt.ylabel("Counts")
