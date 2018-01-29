@@ -34,7 +34,7 @@ energy_list = sorted(energy_list, key=int)
 
 channel_width = 20
 clean_left = 0
-clean_right = 150
+clean_right = 130
 
 '''
 The file is generated from the make file.
@@ -60,6 +60,7 @@ beforehand. The data needs to be cleaned before running this section.
 Remove all of the peaks that are a result of noise or compton continuum.
 '''
 list_data = np.array(Ba133).tolist()
+print(list_data[1075])
 del list_data[clean_left:clean_right]
 
 '''
@@ -89,15 +90,25 @@ and the corresponding count rates are found. A list is created and then the
 list is sorted based by the position of the counts.
 '''
 i = 0; channel_max_list = []; energy_list_2 =[]
+print(Ba133[1075])
 
 while i < len(energy_spectrum):
     channel_max = np.argmax(list_data)
+    #print(channel_max)
     channel_max_list.append(channel_max)
     energy_list_2.append(list_data[channel_max])
-    print(energy_list_2)
+    #print(energy_list_2)
     data_left = channel_max - channel_width
     data_right = channel_max + channel_width
-    del list_data[data_left:data_right]
+    '''
+    Instead of deleting the items from the list. I am placing them to
+    zero. The while loop iterates over the peak and sets it to zero.
+    '''
+    iterator = data_left
+    while iterator < (data_right):
+        list_data[iterator] = 0
+        iterator += 1
+    #del list_data[data_left:data_right]
     i += 1
 energy_channel = list(zip(channel_max_list, energy_list_2))
 print(energy_channel)
