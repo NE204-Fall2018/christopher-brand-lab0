@@ -70,7 +70,6 @@ Also converting merged data into a list so channels can be
 removed easier.
 '''
 data_2_calibrate = data[:,0] + data[:,2]
-#data_2_calibrate = np.array(data_2_calibrate).tolist()
 
 '''
 Calibrating the new spectrum with the slope and intercept produced
