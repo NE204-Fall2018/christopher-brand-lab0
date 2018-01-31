@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 #from scipy.optimize import curve_fit
 #from modelling import gauss
+from lmfit.models import GaussianModel
 from gamma_energies import gamma_energies
 import operator
 '''
@@ -31,7 +32,7 @@ energy_list = sorted(energy_list, key=int)
 
 channel_width = 20
 clean_left = 0
-clean_right = 130
+clean_right = 110
 
 '''
 The file is generated from the make file.
@@ -50,23 +51,26 @@ Ba133 = data[:,1]
 Cs137 = data[:,2]
 Co60 = data[:,3]
 Eu152 = data[:,4]
+calibrate_data = Ba133
 
 '''
 Some a priori knowledge is neeeded about the spectrum
 beforehand. The data needs to be cleaned before running this section.
 Remove all of the peaks that are a result of noise or compton continuum.
 '''
-list_data = np.array(Ba133).tolist()
-print(list_data[1075])
-del list_data[clean_left:clean_right]
-
+list_data = np.array(calibrate_data).tolist()
+#del list_data[clean_left:clean_right]
+iterator = clean_left
+while iterator < (clean_right):
+    list_data[iterator] = 0
+    iterator += 1
 '''
 merging the data for the calibration
 Also converting merged data into a list so channels can be
 removed easier.
 '''
 data_2_calibrate = data[:,0] + data[:,2]
-data_2_calibrate = np.array(data_2_calibrate).tolist()
+#data_2_calibrate = np.array(data_2_calibrate).tolist()
 
 '''
 Calibrating the new spectrum with the slope and intercept produced
@@ -75,8 +79,9 @@ from the energy calibration.
 
 from calibration import spectrum_calibration
 slope, intercept = spectrum_calibration(channel_width, energy_list, data_2_calibrate)
+
 calibrated_channel = []
-for i in range(0,len(Ba133)):
+for i in range(0,len(calibrate_data)):
     calibrated_channel += [i*slope+ intercept]
 calibrated_channel = np.array(calibrated_channel, 'float')
 
@@ -87,14 +92,11 @@ and the corresponding count rates are found. A list is created and then the
 list is sorted based by the position of the counts.
 '''
 i = 0; channel_max_list = []; energy_list_2 =[]
-print(Ba133[1075])
 
 while i < len(energy_spectrum):
     channel_max = np.argmax(list_data)
-    #print(channel_max)
     channel_max_list.append(channel_max)
     energy_list_2.append(list_data[channel_max])
-    #print(energy_list_2)
     data_left = channel_max - channel_width
     data_right = channel_max + channel_width
     '''
@@ -108,7 +110,6 @@ while i < len(energy_spectrum):
     #del list_data[data_left:data_right]
     i += 1
 energy_channel = list(zip(channel_max_list, energy_list_2))
-print(energy_channel)
 energy_channel.sort(key=operator.itemgetter(0))
 print(energy_channel)
 
@@ -116,7 +117,6 @@ print(energy_channel)
 This sequence plots the energy of the peaks and with their corresponding
 energies.
 '''
-
 fig = plt.figure()
 energy_list_2 =[]
 for channel, energy in energy_channel:
@@ -127,6 +127,7 @@ for x, y in zip(energy_spectrum, energy_list_2):
     plt.plot(x1,y1, 'b', linestyle = '--', label = 'Actual Energy')
     plt.annotate('%0.1f keV' % x, xy=(x, y+50), xytext=(x, y+50))
     plt.xlim(0, max(energy_spectrum)+100)
+print(calibrate_data)
 plt.plot(calibrated_channel, Ba133, 'k')
 plt.ylabel("Counts")
 plt.xlabel("Energy(keV)")

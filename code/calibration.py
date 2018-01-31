@@ -17,8 +17,11 @@ def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
         channel_max = np.argmax(data_2_calibrate)
         data_left = channel_max - channel_width
         data_right = channel_max + channel_width
-        del data_2_calibrate[data_left:data_right]
         channel_max_list.append(channel_max)
+        iterator = data_left
+        while iterator < (data_right):
+            data_2_calibrate[iterator] = 0
+            iterator += 1
         i += 1
 
     '''
