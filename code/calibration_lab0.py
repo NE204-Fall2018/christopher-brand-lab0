@@ -17,22 +17,23 @@ import matplotlib.pyplot as plt
 from lmfit.models import GaussianModel
 from gamma_energies import gamma_energies
 import operator
+from matplotlib.pyplot import *
 '''
 Enter the isotope spectrum to be calibrated. The calibration sources
 will be entered next
 '''
-energy_spectrum = gamma_energies('Ba133')
+energy_spectrum = gamma_energies('Co60')
 energy_spectrum = sorted(energy_spectrum, key=int)
 '''
 Enter in your calibration sources into energy_calibration
-energy_calibration('Co60', 'Cs137')
+energy_calibration('Am241', 'Cs137')
 '''
 energy_list = gamma_energies('Cs137', 'Am241')
 energy_list = sorted(energy_list, key=int)
 
-channel_width = 20
+channel_width = 7
 clean_left = 0
-clean_right = 110
+clean_right = 150
 
 '''
 The file is generated from the make file.
@@ -51,8 +52,7 @@ Ba133 = data[:,1]
 Cs137 = data[:,2]
 Co60 = data[:,3]
 Eu152 = data[:,4]
-calibrate_data = Ba133
-
+calibrate_data = Co60
 '''
 Some a priori knowledge is neeeded about the spectrum
 beforehand. The data needs to be cleaned before running this section.
@@ -91,6 +91,7 @@ and the corresponding count rates are found. A list is created and then the
 list is sorted based by the position of the counts.
 '''
 i = 0; channel_max_list = []; energy_list_2 =[]
+gauss_x =[]; gauss_y=[]; fit_channel = []
 
 while i < len(energy_spectrum):
     channel_max = np.argmax(list_data)
@@ -104,13 +105,24 @@ while i < len(energy_spectrum):
     '''
     iterator = data_left
     while iterator < (data_right):
+        gauss_x.append(iterator)
+        gauss_y.append(list_data[iterator])
+        x = np.asarray(gauss_x)
+        y = np.asarray(gauss_y)
+        fit_channel.append(list_data[iterator])
         list_data[iterator] = 0
         iterator += 1
-    #del list_data[data_left:data_right]
     i += 1
+    mod = GaussianModel()
+    pars = mod.guess(y, x=x)
+    out  = mod.fit(y, pars, x=x)
+    #plt.plot(x, fit_channel )
+    #plt.plot(x, out.best_fit, '--k')
+    #plt.show()
+    gauss_x = []; gauss_y = []; fit_channel = []
+    print(out.fit_report(min_correl=10))
 energy_channel = list(zip(channel_max_list, energy_list_2))
 energy_channel.sort(key=operator.itemgetter(0))
-print(energy_channel)
 
 '''
 This sequence plots the energy of the peaks and with their corresponding
@@ -123,11 +135,10 @@ for channel, energy in energy_channel:
 for x, y in zip(energy_spectrum, energy_list_2):
     x1 = np.linspace(x,x, 10000) #plotting a horizontal line
     y1 = np.linspace(0, y,10000) #plotting a horizontal line
-    plt.plot(x1,y1, 'b', linestyle = '--', label = 'Actual Energy')
+    p1 = plt.plot(x1,y1, 'b', linestyle = '--', zorder = 10)
     plt.annotate('%0.1f keV' % x, xy=(x, y+50), xytext=(x, y+50))
     plt.xlim(0, max(energy_spectrum)+100)
-print(calibrate_data)
-plt.plot(calibrated_channel, Ba133, 'k')
+plt.semilogy(calibrated_channel, calibrate_data, 'k', zorder = 0)
 plt.ylabel("Counts")
 plt.xlabel("Energy(keV)")
 plt.title("Calibrated Energy Plot")

@@ -4,6 +4,7 @@ def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
     #from scipy.optimize import curve_fit
     #from modelling import gauss
     import statsmodels.api as sm
+    from lmfit.models import GaussianModel
 
     '''
     The while loop goes through and identifies the largest peak in the
@@ -12,7 +13,8 @@ def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
     The code will then search for the next largest position.
     '''
 
-    i = 0; channel_max_list = []
+    i = 0; channel_max_list = []; gauss_x = []; gauss_y = []
+    fit_channel = []
     while i < len(energy_list):
         channel_max = np.argmax(data_2_calibrate)
         data_left = channel_max - channel_width
@@ -20,9 +22,22 @@ def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
         channel_max_list.append(channel_max)
         iterator = data_left
         while iterator < (data_right):
+            gauss_x.append(iterator)
+            gauss_y.append(data_2_calibrate[iterator])
+            x = np.asarray(gauss_x)
+            y = np.asarray(gauss_y)
+            fit_channel.append(data_2_calibrate[iterator])
             data_2_calibrate[iterator] = 0
             iterator += 1
         i += 1
+        mod = GaussianModel()
+        pars = mod.guess(y, x=x)
+        out  = mod.fit(y, pars, x=x)
+        plt.plot(x, fit_channel )
+        plt.plot(x, out.best_fit, '--k')
+        plt.show()
+        gauss_x = []; gauss_y = []; fit_channel = []
+        print(out.fit_report(min_correl=10))
 
     '''
     sorting channel number so the correct channel number corresponds with
