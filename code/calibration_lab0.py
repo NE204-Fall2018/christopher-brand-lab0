@@ -22,7 +22,7 @@ from matplotlib.pyplot import *
 Enter the isotope spectrum to be calibrated. The calibration sources
 will be entered next
 '''
-energy_spectrum = gamma_energies('Co60')
+energy_spectrum = gamma_energies('Ba133')
 energy_spectrum = sorted(energy_spectrum, key=int)
 '''
 Enter in your calibration sources into energy_calibration
@@ -52,7 +52,7 @@ Ba133 = data[:,1]
 Cs137 = data[:,2]
 Co60 = data[:,3]
 Eu152 = data[:,4]
-calibrate_data = Co60
+calibrate_data = Ba133
 '''
 Some a priori knowledge is neeeded about the spectrum
 beforehand. The data needs to be cleaned before running this section.
@@ -113,14 +113,21 @@ while i < len(energy_spectrum):
         list_data[iterator] = 0
         iterator += 1
     i += 1
-    mod = GaussianModel()
+    mod  = GaussianModel(prefix='g1_')
     pars = mod.guess(y, x=x)
+    pars.update( mod.make_params())
+    pars['g1_center'].set(gauss_x[np.argmax(gauss_y)], min=gauss_x[np.argmax(gauss_y)]\
+    - 3)
+    pars['g1_sigma'].set(3, min=0.25)
+    pars['g1_amplitude'].set(max(gauss_y), min=max(gauss_y)-10)
     out  = mod.fit(y, pars, x=x)
-    #plt.plot(x, fit_channel )
-    #plt.plot(x, out.best_fit, '--k')
-    #plt.show()
+    plt.plot(x, fit_channel )
+    plt.plot(x, out.best_fit, '--k')
+    plt.show()
     gauss_x = []; gauss_y = []; fit_channel = []
     print(out.fit_report(min_correl=10))
+    for key in out.params:
+        print(key, "=", out.params[key].value, "+/-", out.params[key].stderr)
 energy_channel = list(zip(channel_max_list, energy_list_2))
 energy_channel.sort(key=operator.itemgetter(0))
 
