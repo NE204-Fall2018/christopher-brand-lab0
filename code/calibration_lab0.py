@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 #from scipy.optimize import curve_fit
 #from modelling import gauss
 from lmfit.models import GaussianModel
+from lmfit.models import LinearModel
 from gamma_energies import gamma_energies
 import operator
 from matplotlib.pyplot import *
@@ -113,13 +114,19 @@ while i < len(energy_spectrum):
         list_data[iterator] = 0
         iterator += 1
     i += 1
+    '''
+    information for plotting the Gaussian function.
+    '''
     mod  = GaussianModel(prefix='g1_')
+    line_mod = LinearModel(prefix='line')
     pars = mod.guess(y, x=x)
+    pars.update(line_mod.make_params(intercept=y.min(), slope=0))
     pars.update( mod.make_params())
     pars['g1_center'].set(gauss_x[np.argmax(gauss_y)], min=gauss_x[np.argmax(gauss_y)]\
     - 3)
     pars['g1_sigma'].set(3, min=0.25)
     pars['g1_amplitude'].set(max(gauss_y), min=max(gauss_y)-10)
+    mod = mod + line_mod
     out  = mod.fit(y, pars, x=x)
     plt.plot(x, fit_channel )
     plt.plot(x, out.best_fit, '--k')
@@ -128,6 +135,8 @@ while i < len(energy_spectrum):
     print(out.fit_report(min_correl=10))
     for key in out.params:
         print(key, "=", out.params[key].value, "+/-", out.params[key].stderr)
+
+
 energy_channel = list(zip(channel_max_list, energy_list_2))
 energy_channel.sort(key=operator.itemgetter(0))
 

@@ -1,1 +1,13 @@
-We are going to investigate the Gaussian distribution using numpy.random.normal
+The energy calibration was performed using a two-point linear fit between
+$^{137}$Cs and $^{241}$Am. To perform the calibration, a program searched
+the raw spectrum data of $^{137}$Cs and $^{241}$Am looking for
+the largest peaks within the spectrum. The program iterated over the spectrum for the
+number of gamma-ray energies present since there should only be peaks corresponding
+to the number of gamma-ray energies present. With a peak found, the centroid of the peak was
+recorded, and subsequently, utilizing a pre-defined width that incapsulates
+the whole peak, the program fit a Gaussian model and
+a linear model to this portion of the data. After modeling the data, the peak was
+set to zero so during the next iteration the same peak is not found again.
+The width of the peak should be used carefully. A peak of interest could be deleted on accident.
+
+This approximation works for HPGe since the peaks produced have sharp resolution.
