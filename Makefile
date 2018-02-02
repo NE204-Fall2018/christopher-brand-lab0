@@ -11,7 +11,7 @@ $(manuscript).pdf: $(manuscript).tex text/*.tex references.bib images/*.png
 
 # Get/download necessary data
 data :
-	curl -L -o lab0_spectral_data.txt https://www.dropbox.com/s/k692avun0144n90/lab0_spectral_data.txt?dl=0
+	curl -L -o lab0_data.txt https://www.dropbox.com/s/k692avun0144n90/lab0_spectral_data.txt?dl=0
 
 # Validate that downloaded data is not corrupted
 validate :

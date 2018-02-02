@@ -55,4 +55,7 @@ def spectrum_calibration(channel_width, energy_list, data_2_calibrate):
     plt.xlabel('Channel Number')
     plt.ylabel('Energy [keV]')
     plt.title('Best Fit Line')
+
+#    plt.savefig('../images/BestFitLine_calibrated.png')
+
     return slope, intercept

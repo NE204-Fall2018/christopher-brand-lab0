@@ -20,14 +20,12 @@ from gamma_energies import gamma_energies
 import operator
 from matplotlib.pyplot import *
 '''
-Enter the isotope spectrum to be calibrated. The calibration sources
-will be entered next
+Source Energy spectrum to be calibrated
 '''
 energy_spectrum = gamma_energies('Ba133')
 energy_spectrum = sorted(energy_spectrum, key=int)
 '''
-Enter in your calibration sources into energy_calibration
-energy_calibration('Am241', 'Cs137')
+Enter calibration sources into energy_calibration
 '''
 energy_list = gamma_energies('Cs137', 'Am241')
 energy_list = sorted(energy_list, key=int)
@@ -37,17 +35,17 @@ clean_left = 0
 clean_right = 150
 
 '''
-The file is generated from the make file.
+Loads the data
 '''
 
-fname = '../lab0_spectral_data.txt'
+fname = '../lab0_data.txt'
 with open(fname, 'r') as f:
     first_line = f.readline()
     length = float(len(first_line.split()))
     length = np.arange(0, length)
 
 data = np.genfromtxt(fname, delimiter='', skip_header=1)
-#parse the CSV data into fields we can use easily:
+#parse the  data into fields:
 Am241 = data[:,0]
 Ba133 = data[:,1]
 Cs137 = data[:,2]
@@ -141,7 +139,7 @@ energy_channel = list(zip(channel_max_list, energy_list_2))
 energy_channel.sort(key=operator.itemgetter(0))
 
 '''
-This sequence plots the energy of the peaks and with their corresponding
+Below plots the energy of the peaks and with their corresponding
 energies.
 '''
 fig = plt.figure()
@@ -158,6 +156,5 @@ plt.semilogy(calibrated_channel, calibrate_data, 'k', zorder = 0)
 plt.ylabel("Counts")
 plt.xlabel("Energy(keV)")
 plt.title("Calibrated Energy Plot")
-#plt.legend()
 plt.savefig('../images/Ba133_calibrated.png')
 #argmax returns the position in the array where maximum occurs
