@@ -38,7 +38,7 @@ clean_right = 150
 Loads the data
 '''
 
-fname = '../lab0_data.txt'
+fname = '../lab0_spectral_data.txt'
 with open(fname, 'r') as f:
     first_line = f.readline()
     length = float(len(first_line.split()))
@@ -77,6 +77,8 @@ from the energy calibration.
 
 from calibration import spectrum_calibration
 slope, intercept = spectrum_calibration(channel_width, energy_list, data_2_calibrate)
+print(slope)
+print(intercept)
 
 calibrated_channel = []
 for i in range(0,len(calibrate_data)):
