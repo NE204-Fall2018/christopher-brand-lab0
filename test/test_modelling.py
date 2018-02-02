@@ -1,5 +1,6 @@
 from code.modelling import gauss
 from nose.tools import assert_almost_equal
+from code.calibration_lab0 import spectrum_calibration
 
 def test_gauss_symmetry():
     A = 100
@@ -9,3 +10,5 @@ def test_gauss_symmetry():
     xl = -xr
     #assert gauss(xr, A, B, C) == gauss(xl, A,B,C)
     assert_almost_equal(xr, A, B, C)
+    slope, intercept = spectrum_calibration(1, 2, np.array(range(4))
+
