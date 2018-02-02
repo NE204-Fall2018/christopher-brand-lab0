@@ -2,8 +2,7 @@
 
 # Energy Calibration
 
-Data was collected with a Coaxial HPGe detector with Co60,
-Am241, and Eu152 sources.
+Data was collected with a Coaxial HPGe detector with  sources.
 
 A python script was written to perform an energy calibration for the data
 sources.
@@ -22,10 +21,8 @@ make data
 ```
 ### Implementing data check
 
-### Validate data
-
+make analysis
 ```
-make validate
 ```
 
 ### Generating the final report in pdf format
@@ -33,3 +30,5 @@ make validate
 ```
 make
 ```
+
+Notes: [1] have to use python 3.6
