@@ -53,7 +53,7 @@ Co60 = data[:,3]
 Eu152 = data[:,4]
 calibrate_data = Ba133
 '''
-Some a priori knowledge is neeeded about the spectrum
+Prior knowledge about the spectrum is needed
 beforehand. The data needs to be cleaned before running this section.
 Remove all of the peaks that are a result of noise or compton continuum.
 '''
@@ -136,7 +136,6 @@ while i < len(energy_spectrum):
     for key in out.params:
         print(key, "=", out.params[key].value, "+/-", out.params[key].stderr)
 
-
 energy_channel = list(zip(channel_max_list, energy_list_2))
 energy_channel.sort(key=operator.itemgetter(0))
 
@@ -160,3 +159,25 @@ plt.xlabel("Energy(keV)")
 plt.title("Calibrated Energy Plot")
 plt.savefig('../images/Ba133_calibrated.png')
 #argmax returns the position in the array where maximum occurs
+print(energy_spectrum)
+''' 
+below compares the values of energy peaks to the know values
+'''
+
+i=0 
+energy_peaks = np.zeros(6)
+
+while i < 5:
+     energy_peaks[i] = slope*channel_max_list[i]+intercept
+     i += 1
+
+channel_max_list = sorted(channel_max_list)
+energy_peaks = sorted(energy_peaks)
+energy_peaks[0] = slope*channel_max_list[0]+intercept
+
+print(energy_peaks)
+energy_spectrum = np.asarray(energy_spectrum)
+
+delta = abs(energy_spectrum-energy_peaks)
+
+print(delta)

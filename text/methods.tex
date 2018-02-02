@@ -1,13 +1,32 @@
-The energy calibration was performed using a two-point linear fit between
-$^{137}$Cs and $^{241}$Am. To perform the calibration, a program searched
-the raw spectrum data of $^{137}$Cs and $^{241}$Am looking for
-the largest peaks within the spectrum. The program iterated over the spectrum for the
-number of gamma-ray energies present since there should only be peaks corresponding
-to the number of gamma-ray energies present. With a peak found, the centroid of the peak was
-recorded, and subsequently, utilizing a pre-defined width that incapsulates
-the whole peak, the program fit a Gaussian model and
-a linear model to this portion of the data. After modeling the data, the peak was
-set to zero so during the next iteration the same peak is not found again.
-The width of the peak should be used carefully. A peak of interest could be deleted on accident.
+\subsection{Experimental Setup}
+A countrate energy spectrum dataset consisting of  five sources wwas gathered with a coaxial high purity germanium detector (HPGE) by instructor Ross Barnowskifor. Out of the five sources $^{241}$Am and $^{137}$Cs were used to calibrate the energy spectrum and the peaks in $^{133}$Ba was used to benchmark the accuracy of the calibration. The known energies of the calibration peaks are presented below in Table~\ref{tab:CalSrc}.
 
-This approximation works for HPGe since the peaks produced have sharp resolution.
+\begin{table}[H]
+        \begin{center}
+                \begin{tabular}{l|r}
+                        \textbf{Source} & \textbf{Energy (keV)}\\
+                        \hline
+                        $^{241}$Am      &       59.5    \\
+                        $^{137}$Cs      &       661.6   \\
+                \end{tabular}
+                \caption{Source Isotopes and Corresponding Gamma-ray energies}
+                \label{tab:CalSrc}
+        \end{center}
+\end{table}
+
+\subsection{Peak Selection}
+	
+	A program for peak selection was created using python 3.6, after inspection of the spectrum. The program iterated over the spectrum assuming a set number of gamma-ray energies were present because the spectrums consisted of only one source. With this knowledge, the max value was determined and the peak selected with a preset bin width. The peak information was recorded and then deleted to find the next max/peak.  
+
+\subsection{Gaussian and Linear Fit}
+
+        The gamma-ray spectrum is approximated as being composed of a global non-linear background with guassian peaks due to the impingment of high branching ratio gamma-ray lines from radioactive decay.\cite{Knoll} The peaks are fitted by a Gaussian of the form:
+
+\begin{equation}
+G(x; A,\mu, \sigma) = A\exp\bigg(-\frac{(x-\mu)^2}{2\sigma^2}\bigg)
+\end{equation}
+
+Additionally, the data was fit to a linear model and the two were summed together to achieve the final result. 
+
+
+
