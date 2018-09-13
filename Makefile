@@ -20,8 +20,8 @@ validate :
 
 # Run tests on analysis code
 test :
-#	pytest
-	nosetests --no-byte-compile test/test_m*
+	pytest
+#	nosetests --no-byte-compile test/test_m*
 
 # Automate running the analysis code
 analysis :
