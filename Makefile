@@ -16,13 +16,12 @@ data :
 # Validate that downloaded data is not corrupted
 validate :
 	curl -L -o lab0_spectral_data.md5sum https://www.dropbox.com/s/amumdrm9zp1kn8d/lab0_spectral_data.md5?dl=0 
-	#need to have the same base name to run md5sum. -c knows to compare the md5sum
-	#against another file that has a similar base ie 'lab0_spectral_data'
 	md5sum -c lab0_spectral_data.md5sum
 
 # Run tests on analysis code
 test :
-	nosetests --no-byte-compile test/*
+#	pytest
+	nosetests --no-byte-compile test/test_m*
 
 # Automate running the analysis code
 analysis :

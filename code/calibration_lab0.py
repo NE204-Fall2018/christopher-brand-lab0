@@ -9,7 +9,8 @@ you are going to fit the calibration with. There is clean_left and clean_right
 that will trim the beginning of the spectrum to remove noise and other
 spurious results.
 '''
-
+import sys
+sys.path.append('../')
 import numpy as np
 import matplotlib.pyplot as plt
 #from scipy.optimize import curve_fit
@@ -17,6 +18,7 @@ import matplotlib.pyplot as plt
 from lmfit.models import GaussianModel
 from lmfit.models import LinearModel
 from gamma_energies import gamma_energies
+# import gamma_energies
 import operator
 from matplotlib.pyplot import *
 '''
