@@ -7,6 +7,7 @@
 
 # Ignore data folder
 data/*
+lab0_spectral_data.txt
 # Mac cruft
 .DS_Store
 
